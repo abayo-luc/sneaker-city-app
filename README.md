@@ -20,7 +20,7 @@ npm start
 
 ```
 
-Add env variable `.env` you can find exmaple in `.env.sample`
+Add env variables `.env` you can find exmaple in `.env.sample`
 
 ## Built With
 
