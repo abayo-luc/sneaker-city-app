@@ -1,33 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getReadableData } from '../../helper';
 import './style.scss';
-export default () => (
-  <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
-    <div class="card shadow">
-      <div class="card-body text-center">
-        <h3 class="text-warning">SALE 50% OFF</h3>
-        <Link to="/products/kjkjd" href="#">
-          <img
-            class="card-img-top"
-            src="https://images.pexels.com/photos/2078268/pexels-photo-2078268.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            alt=""
-          />
-        </Link>
-        <Link to="/products/hjkjd" class="text-reset" href="#">
-          <h3 class="card-title display-4">viverra</h3>
-        </Link>
-        <h6>
-          $199.99 <del class="text-muted ml-2">$399.99</del>
-        </h6>
-        <Link
-          to="/products/idlkjad"
-          class="btn btn-dark my-2"
-          href="#"
-          role="button"
-        >
-          Add to Cart
-        </Link>
+export default ({ data }) => {
+  return (
+    <Link className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4 react-link">
+      <div className="card shadow">
+        <div className="shape">
+          <div className="shape-text">{data.brand_name}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-1"></div>
+          <div className="col-md-10"></div>
+          <div className="col-md-1"></div>
+        </div>
+        <div className="card-body ">
+          <Link to={`/products/${data.id}`}>
+            <img className="card-img-top" src={data.grid_picture_url} alt="" />
+          </Link>
+          <Link to={`/products/${data.id}`} className="text-reset">
+            <h3 className="card-title display-4 name text-color-dark">
+              {data.nickname}
+            </h3>
+          </Link>
+          <h6 className="text-color-dark">
+            Price:{' '}
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            }).format(data.retail_price_cents || 500)}
+          </h6>
+          <div>
+            {[
+              { name: 'Release Date', key: 'release_date', isData: true },
+              { name: 'designer', key: 'designer', default: 'Unknown' },
+              { name: 'gender', key: 'gender', default: 'Unisex' },
+            ].map((item) => (
+              <p key={item.key} className="font-weight-lighter extra-info">
+                <span>{item.name}</span>:
+                <span className="mx-2">
+                  {item.isData
+                    ? getReadableData(data[item.key])
+                    : data[item.key] || item.default}
+                </span>
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    </Link>
+  );
+};

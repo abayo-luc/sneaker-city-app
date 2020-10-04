@@ -1,71 +1,110 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Interwave from 'interweave';
 import './style.scss';
+import { getReadableData } from '../../helper';
 
-export default () => (
-  <div className="container">
-    <div className="card shadow">
-      <div class="container-fliud">
-        <div class="wrapper row">
-          <div className="image col-md-6">
-            <div class="pic-container">
-              <img
-                src="http://placekitten.com/400/252"
-                alt="img"
-                className="product-image"
+export default ({ data }) => {
+  const [availQt, setAvailQt] = useState(null);
+
+  return (
+    <div className="container">
+      <div className="card shadow">
+        <div className="container-fliud">
+          <div className="wrapper row">
+            <div className="image col-md-6">
+              <div className="pic-container">
+                <img
+                  src={data.main_picture_url}
+                  alt="img"
+                  className="product-image"
+                />
+              </div>
+            </div>
+            <div className="details col-md-6">
+              <h3 className="product-title text-color-dark">
+                {data.nickname || data.name}
+              </h3>
+              <div className="rating">
+                <span className="font-weight-lighter">{data.name}</span>
+              </div>
+              <Interwave
+                className="product-description"
+                content={data.story_html}
               />
-            </div>
-          </div>
-          <div class="details col-md-6">
-            <h3 class="product-title">men's shoes fashion</h3>
-            <div class="rating">
-              <div class="stars">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
+              <h4 className="price text-color-dark">
+                current price:{' '}
+                <span>
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  }).format(data.retail_price_cents || 500)}
+                </span>
+              </h4>
+              <p className="vote">
+                <strong>91%</strong> of buyers enjoyed this product!
+              </p>
+              <div>
+                {[
+                  { name: 'color', key: 'color' },
+                  { name: 'Release Date', key: 'release_date', isData: true },
+                  { name: 'designer', key: 'designer', default: 'Unknown' },
+                  { name: 'gender', key: 'gender', default: 'Unisex' },
+                ].map((item) => (
+                  <p key={item.key} className="font-weight-lighter extra-info">
+                    <span>{item.name}</span>:
+                    <span className="mx-2">
+                      {item.isData
+                        ? getReadableData(data[item.key])
+                        : data[item.key] || item.default}
+                    </span>
+                  </p>
+                ))}
               </div>
-              <span class="review-no">41 reviews</span>
-            </div>
-            <p class="product-description">
-              Suspendisse quos? Tempus cras iure temporibus? Eu laudantium
-              cubilia sem sem! Repudiandae et! Massa senectus enim minim
-              sociosqu delectus posuere.
-            </p>
-            <h4 class="price">
-              current price: <span>$180</span>
-            </h4>
-            <p class="vote">
-              <strong>91%</strong> of buyers enjoyed this product!{' '}
-            </p>
-            <h5 class="sizes">
-              sizes:
-              <span class="size" data-toggle="tooltip" title="small">
-                s
-              </span>
-              <span class="size" data-toggle="tooltip" title="medium">
-                m
-              </span>
-              <span class="size" data-toggle="tooltip" title="large">
-                l
-              </span>
-              <span class="size" data-toggle="tooltip" title="xtra large">
-                xl
-              </span>
-            </h5>
-            <h5 class="colors">
-              colors: <span>green</span>
-            </h5>
-            <div class="action row">
-              <div className="col-md-6 col-12 my-2">
-                <button type="button" class="btn btn-outline-dark btn-block">
-                  Add to Cart
-                </button>
+              <h5 className="sizes text-color-dark">
+                sizes:
+                <select
+                  className="custom-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setAvailQt(e.target.value)}
+                  defaultValue="0"
+                >
+                  <option value="0">Choose..</option>
+                  {data.size_range?.map((item) => (
+                    <option value={item.size} key={item.size}>
+                      {item.size}
+                    </option>
+                  ))}
+                </select>
+              </h5>
+              {availQt && (
+                <h5 className="colors small">
+                  <span>
+                    {
+                      data.size_range?.find(
+                        (item) => item.size === parseInt(availQt)
+                      )?.size
+                    }
+                    <span className="mx-1"> available pairs</span>
+                  </span>
+                </h5>
+              )}
+              <div className="action row">
+                <div className="col-md-6 col-12 my-2">
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark btn-block"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
+            </div>
+            <div className="brand">
+              <span className="badge badge-primary">{data.brand_name}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

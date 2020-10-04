@@ -1,7 +1,13 @@
-.form-container {
-  width: 50%;
-  .form-control {
-    float: left;
-    width: 80%;
+nav.navbar-light {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 3;
+  .form-container {
+    width: 40%;
+    .form-control {
+      float: left;
+      width: 100%;
+    }
   }
 }
