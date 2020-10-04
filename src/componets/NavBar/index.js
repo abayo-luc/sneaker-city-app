@@ -17,6 +17,13 @@ export default ({ onSearchQueryChange }) => {
           onChange={(e) => onSearchQueryChange(e.target.value)}
         />
       </form>
+      <div className="row">
+        <div className="col">
+          <Link to="/carts" type="button" class="btn btn-light">
+            View Cart
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 };
