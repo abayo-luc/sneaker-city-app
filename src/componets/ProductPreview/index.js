@@ -4,7 +4,10 @@ import { getReadableData } from '../../helper';
 import './style.scss';
 export default ({ data }) => {
   return (
-    <Link className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4 react-link">
+    <Link
+      to={`/products/${data.id}`}
+      className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4 react-link"
+    >
       <div className="card shadow">
         <div className="shape">
           <div className="shape-text">{data.brand_name}</div>
@@ -15,14 +18,12 @@ export default ({ data }) => {
           <div className="col-md-1"></div>
         </div>
         <div className="card-body ">
-          <Link to={`/products/${data.id}`}>
-            <img className="card-img-top" src={data.grid_picture_url} alt="" />
-          </Link>
-          <Link to={`/products/${data.id}`} className="text-reset">
+          <img className="card-img-top" src={data.grid_picture_url} alt="" />
+          <div className="text-reset">
             <h3 className="card-title display-4 name text-color-dark">
               {data.nickname}
             </h3>
-          </Link>
+          </div>
           <h6 className="text-color-dark">
             Price:{' '}
             {new Intl.NumberFormat('en-US', {

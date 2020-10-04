@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import MainLayout from './componets/Layout/main';
 import HomePage from './pages/Home';
 import ProductPage from './pages/Product';
-export default () => (
-  <Router>
-    <MainLayout>
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
-        <Route exact path="/products/:id">
-          <ProductPage />
-        </Route>
-      </Switch>
-    </MainLayout>
-  </Router>
-);
+
+export const SearchContext = React.createContext('');
+
+export default () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  return (
+    <Router>
+      <SearchContext.Provider value={searchQuery}>
+        <MainLayout onSearchQueryChange={(value) => setSearchQuery(value)}>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route exact path="/products/:id">
+              <ProductPage />
+            </Route>
+          </Switch>
+        </MainLayout>
+      </SearchContext.Provider>
+    </Router>
+  );
+};
