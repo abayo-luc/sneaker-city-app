@@ -29,7 +29,7 @@ export default ({ data }) => {
             {new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'USD',
-            }).format(data.retail_price_cents || 500)}
+            }).format(data.retail_price_cents * 0.01 || 500)}
           </h6>
           <div>
             {[

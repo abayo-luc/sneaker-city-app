@@ -4,7 +4,7 @@ import './App.scss';
 import MainLayout from './componets/Layout/main';
 import HomePage from './pages/Home';
 import ProductPage from './pages/Product';
-
+import ShoppingCart from './pages/ShoppingCart';
 export const SearchContext = React.createContext('');
 
 export default () => {
@@ -19,6 +19,9 @@ export default () => {
             </Route>
             <Route exact path="/products/:id">
               <ProductPage />
+            </Route>
+            <Route exact path="/carts">
+              <ShoppingCart />
             </Route>
           </Switch>
         </MainLayout>

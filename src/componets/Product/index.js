@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
 import Interwave from 'interweave';
+import { useHistory } from 'react-router-dom';
 import './style.scss';
 import { getReadableData } from '../../helper';
 
+const stringfyData = (value) => JSON.stringify(value);
 export default ({ data }) => {
-  const [availQt, setAvailQt] = useState(null);
+  const history = useHistory();
+  const [selectedSize, setSlectedSize] = useState(null);
+  const handleAddToCart = () => {
+    try {
+      const cartItems = JSON.parse(localStorage.getItem('cart'));
+      localStorage.setItem(
+        'cart',
+        stringfyData({
+          ...cartItems,
+          [data.id]: { ...data, ordered_size: selectedSize },
+        })
+      );
+    } catch (error) {
+      localStorage.setItem(
+        'cart',
+        stringfyData({ [data.id]: { ...data, ordered_size: selectedSize } })
+      );
+    }
 
+    history.push('/carts');
+  };
   return (
-    <div className="container">
+    <div className="container mb-5">
       <div className="card shadow">
         <div className="container-fliud">
           <div className="wrapper row">
@@ -37,7 +58,7 @@ export default ({ data }) => {
                   {new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'USD',
-                  }).format(data.retail_price_cents || 500)}
+                  }).format(data.retail_price_cents * 0.01 || 500)}
                 </span>
               </h4>
               <p className="vote">
@@ -65,7 +86,7 @@ export default ({ data }) => {
                 <select
                   className="custom-select"
                   id="inputGroupSelect01"
-                  onChange={(e) => setAvailQt(e.target.value)}
+                  onChange={(e) => setSlectedSize(e.target.value)}
                   defaultValue="0"
                 >
                   <option value="0">Choose..</option>
@@ -76,12 +97,12 @@ export default ({ data }) => {
                   ))}
                 </select>
               </h5>
-              {availQt && (
+              {selectedSize && (
                 <h5 className="colors small">
                   <span>
                     {
                       data.size_range?.find(
-                        (item) => item.size === parseInt(availQt)
+                        (item) => item.size === parseInt(selectedSize)
                       )?.size
                     }
                     <span className="mx-1"> available pairs</span>
@@ -93,6 +114,8 @@ export default ({ data }) => {
                   <button
                     type="button"
                     className="btn btn-outline-dark btn-block"
+                    onClick={handleAddToCart}
+                    disabled={!selectedSize}
                   >
                     Add to Cart
                   </button>
