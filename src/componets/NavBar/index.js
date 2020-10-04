@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './style.scss';
 export default () => (
   <nav class="navbar navbar-light bg-light">
     <Link className="navbar-brand" to="/">
-      Navbar
+      Sneaker City
     </Link>
-    <form class="form-inline">
+    <form class="form-inline form-container">
       <input
         class="form-control mr-sm-2"
         type="search"
