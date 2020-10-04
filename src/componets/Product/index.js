@@ -3,7 +3,7 @@ import './style.scss';
 
 export default () => (
   <div className="container">
-    <div className="card">
+    <div className="card shadow">
       <div class="container-fliud">
         <div class="wrapper row">
           <div className="image col-md-6">

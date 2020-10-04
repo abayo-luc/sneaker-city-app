@@ -1,7 +1,10 @@
 import React from 'react';
-import Product from '../../componets/Product';
+import ProductPreview from '../../componets/ProductPreview';
 export default () => (
-  <div>
-    <Product />
+  <div className="row product-page">
+    <ProductPreview />
+    <ProductPreview />
+    <ProductPreview />
+    <ProductPreview />
   </div>
 );
