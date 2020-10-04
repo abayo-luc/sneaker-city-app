@@ -91,4 +91,21 @@ a.react-link {
 
 .page-container {
   margin-top: 6rem;
+  .page-item {
+    button {
+      margin: 2.5px;
+    }
+  }
+  .page-link {
+    &.disabled {
+      background-color: #ccc;
+    }
+  }
+}
+
+.empty-data {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
 }
